@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Validator,Redirect,Response,File;
+
 
 class SocialController extends Controller
 {
@@ -71,7 +73,11 @@ class SocialController extends Controller
 
             $token = JWTAuth::fromUser($user);
 
-            return response()->success(compact('user', 'token'));
+            //return response()->success(compact('user', 'token'));
+            auth()->login($user);
+ 
+            return redirect()->to('/');
+
         } catch (Exception $e) {
             return response()->error('error_on_login_user', $e->getStatusCode());
         }
